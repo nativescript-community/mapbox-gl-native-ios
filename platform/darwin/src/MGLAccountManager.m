@@ -6,7 +6,6 @@
 #endif
 
 #if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
-#import "MGLMapboxEvents.h"
 #import "MBXSKUToken.h"
 
 static NSString * const MGLAccountManagerExternalClassName = @"MBXAccounts";
@@ -74,11 +73,6 @@ NSString * const MGLMapboxAccountTypeKey = @"MGLMapboxAccountType";
 
     [MGLAccountManager sharedManager].accessToken = accessToken;
 
-#if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MGLMapboxEvents setupWithAccessToken:accessToken];
-    });
-#endif
 }
 
 + (NSString *)accessToken {

@@ -111,10 +111,6 @@ if [[ "${GITHUB_RELEASE}" == true ]]; then
         --draft ${PUBLISH_PRE_FLAG} \
         --description "${RELEASE_NOTES}"
 fi
-
-# Build bundle
-buildPackageStyle "iframework" "dynamic-with-events"
-
 # Used for Cocoapods/Carthage
 buildPackageStyle "iframework" "dynamic"
 buildPackageStyle "iframework SYMBOLS=NO" "stripped-dynamic"

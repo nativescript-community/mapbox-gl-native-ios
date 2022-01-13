@@ -2,10 +2,6 @@
 #import "MGLLoggingConfiguration_Private.h"
 #import "MGLMapView+OpenGL.h"
 
-#if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
-#import <MapboxMobileEvents/MapboxMobileEvents.h>
-#endif
-
 #include <mbgl/gl/renderable_resource.hpp>
 
 #import <GLKit/GLKit.h>

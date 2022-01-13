@@ -63,8 +63,6 @@
 #import "MGLScaleBar.h"
 #import "MGLStyle_Private.h"
 #import "MGLStyleLayer_Private.h"
-#import "MGLMapboxEvents.h"
-#import "MGLSDKUpdateChecker.h"
 #import "MGLCompactCalloutView.h"
 #import "MGLAnnotationContainerView.h"
 #import "MGLAnnotationContainerView_Private.h"
@@ -74,7 +72,6 @@
 #import "MGLLoggingConfiguration_Private.h"
 #import "MGLNetworkConfiguration_Private.h"
 #import "MGLReachability.h"
-#import <MapboxMobileEvents/MapboxMobileEvents.h>
 #import "MGLSignpost.h"
 #import "MGLObserver_Private.h"
 #import "MGLEvent_Private.h"
@@ -422,14 +419,6 @@ public:
     return self;
 }
 
-+ (void)initialize
-{
-    if (self == [MGLMapView class])
-    {
-        [MGLSDKUpdateChecker checkForUpdates];
-    }
-}
-
 + (NSSet<NSString *> *)keyPathsForValuesAffectingStyle
 {
     return [NSSet setWithObject:@"styleURL"];
@@ -757,11 +746,6 @@ public:
     _pendingLatitude = NAN;
     _pendingLongitude = NAN;
     _targetCoordinate = kCLLocationCoordinate2DInvalid;
-
-    if (self.applicationState != UIApplicationStateBackground) {
-        [MGLMapboxEvents pushTurnstileEvent];
-        [MGLMapboxEvents pushEvent:MMEEventTypeMapLoad withAttributes:@{}];
-    }
 }
 
 - (mbgl::Size)size
@@ -1544,7 +1528,6 @@ public:
 
     // Handle non-rendering issues.
     [self validateLocationServices];
-    [MGLMapboxEvents flush];
 }
 
 - (void)enableSnapshotView {
@@ -1607,20 +1590,6 @@ public:
 
     [self validateLocationServices];
 
-    // Report events
-    [MGLMapboxEvents pushTurnstileEvent];
-    [MGLMapboxEvents pushEvent:MMEEventTypeMapLoad withAttributes:@{}];
-
-    // Report previous rendering errors
-    if (self.numberOfRenderCallsMoreThanOneSecond > 0) {
-        NSError *error = [NSError errorWithDomain:MGLErrorDomain
-                                             code:MGLErrorCodeRenderingError
-                                         userInfo:@{
-                                             NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%ld/%ld", (long)self.numberOfRenderCallsMoreThanOneSecond, (long)self.numberOfRenderCalls],
-                                             NSLocalizedFailureReasonErrorKey : @"https://github.com/mapbox/mapbox-gl-native-ios/issues/350"
-                                         }];
-        [[MMEEventsManager sharedManager] reportError:error];
-    }
     self.numberOfRenderCalls = 0;
     self.numberOfRenderCallsMoreThanOneSecond = 0;
 }
@@ -2943,14 +2912,6 @@ public:
         [attributionController addAction:action];
     }
     
-    NSString *telemetryTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_NAME", nil, nil, @"Mapbox Telemetry", @"Action in attribution sheet");
-    UIAlertAction *telemetryAction = [UIAlertAction actionWithTitle:telemetryTitle
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction * _Nonnull action) {
-        [self presentTelemetryAlertController];
-    }];
-    [attributionController addAction:telemetryAction];
-    
     NSString *cancelTitle = NSLocalizedStringWithDefaultValue(@"CANCEL", nil, nil, @"Cancel", @"Title of button for dismissing attribution action sheet");
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelTitle
                                                            style:UIAlertActionStyleCancel
@@ -2965,71 +2926,13 @@ public:
     self.attributionController = attributionController;
 }
 
-- (void)presentTelemetryAlertController
-{
-    NSString *title = NSLocalizedStringWithDefaultValue(@"TELEMETRY_TITLE", nil, nil, @"Make Mapbox Maps Better", @"Telemetry prompt title");
-    NSString *message;
-    NSString *participateTitle;
-    NSString *declineTitle;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:MGLMapboxMetricsEnabledKey])
-    {
-        message = NSLocalizedStringWithDefaultValue(@"TELEMETRY_ENABLED_MSG", nil, nil, @"You are helping to make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.", @"Telemetry prompt message");
-        participateTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_ENABLED_ON", nil, nil, @"Keep Participating", @"Telemetry prompt button");
-        declineTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_ENABLED_OFF", nil, nil, @"Stop Participating", @"Telemetry prompt button");
-    }
-    else
-    {
-        message = NSLocalizedStringWithDefaultValue(@"TELEMETRY_DISABLED_MSG", nil, nil, @"You can help make OpenStreetMap and Mapbox maps better by contributing anonymous usage data.", @"Telemetry prompt message");
-        participateTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_DISABLED_ON", nil, nil, @"Participate", @"Telemetry prompt button");
-        declineTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_DISABLED_OFF", nil, nil, @"Don’t Participate", @"Telemetry prompt button");
-    }
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                             message:message
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    
-    NSString *moreTitle = NSLocalizedStringWithDefaultValue(@"TELEMETRY_MORE", nil, nil, @"Tell Me More", @"Telemetry prompt button");
-    UIAlertAction *moreAction = [UIAlertAction actionWithTitle:moreTitle
-                                                         style:UIAlertActionStyleDefault
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-        [self.application mgl_openURL:[NSURL URLWithString:@"https://www.mapbox.com/telemetry/"] completionHandler:NULL];
-    }];
-    [alertController addAction:moreAction];
-    
-    UIAlertAction *declineAction = [UIAlertAction actionWithTitle:declineTitle
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MGLMapboxMetricsEnabledKey];
-    }];
-    [alertController addAction:declineAction];
-    
-    UIAlertAction *participateAction = [UIAlertAction actionWithTitle:participateTitle
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction * _Nonnull action) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MGLMapboxMetricsEnabledKey];
-    }];
-    [alertController addAction:participateAction];
-    
-    UIViewController *viewController = [self.window.rootViewController mgl_topMostViewController];
-    [viewController presentViewController:alertController animated:YES completion:NULL];
-}
-
 #pragma mark - Properties -
 
 static void *windowScreenContext = &windowScreenContext;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"hidden"] && object == _attributionButton)
-    {
-        NSNumber *hiddenNumber = change[NSKeyValueChangeNewKey];
-        BOOL attributionButtonWasHidden = [hiddenNumber boolValue];
-        if (attributionButtonWasHidden)
-        {
-            [MGLMapboxEvents ensureMetricsOptoutExists];
-        }
-    }
-    else if ([keyPath isEqualToString:@"coordinate"] && [object conformsToProtocol:@protocol(MGLAnnotation)] && ![object isKindOfClass:[MGLMultiPoint class]])
+    if ([keyPath isEqualToString:@"coordinate"] && [object conformsToProtocol:@protocol(MGLAnnotation)] && ![object isKindOfClass:[MGLMultiPoint class]])
     {
         id <MGLAnnotation> annotation = object;
         MGLAnnotationTag annotationTag = (MGLAnnotationTag)(NSUInteger)context;

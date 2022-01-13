@@ -22,12 +22,9 @@ fi
 FORMAT=${FORMAT:-dynamic}
 BUILD_DYNAMIC=true
 BUILD_STATIC=false
-INCLUDE_EVENTS_IN_PACKAGE=false
 if [[ ${FORMAT} == "static" ]]; then
     BUILD_STATIC=true
     BUILD_DYNAMIC=false
-elif [[ ${FORMAT} == "dynamic-with-events" ]]; then
-    INCLUDE_EVENTS_IN_PACKAGE=true
 elif [[ ${FORMAT} == "stripped-dynamic" ]]; then
     echo "Packaging for stripped-dynamic"
 elif [[ ${FORMAT} != "dynamic" ]]; then
@@ -45,7 +42,7 @@ if [[ ${BUILD_FOR_DEVICE} == true ]]; then
 fi
 IOS_SDK_VERSION=`xcrun --sdk ${SDK} --show-sdk-version`
 
-step "Configuring ${FORMAT} framework for ${SDK} ${IOS_SDK_VERSION} (symbols: ${SYMBOLS}, buildtype: ${BUILDTYPE}, include events:${INCLUDE_EVENTS_IN_PACKAGE})"
+step "Configuring ${FORMAT} framework for ${SDK} ${IOS_SDK_VERSION} (symbols: ${SYMBOLS}, buildtype: ${BUILDTYPE})"
 
 xcodebuild -version
 
@@ -125,12 +122,9 @@ function copyAndMakeXCFramework {
     local ROOT=`pwd`
 
     step "Merging ${NAME} device and simulator frameworks into XCFramework…"
-    local BCSYMBOLMAPS=(${PRODUCTS}/${BUILDTYPE}-iphoneos/*.bcsymbolmap)
     xcodebuild -create-xcframework \
         -framework ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework \
         -debug-symbols ${ROOT}/${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM \
-        -debug-symbols ${ROOT}/${BCSYMBOLMAPS[0]} \
-        -debug-symbols ${ROOT}/${BCSYMBOLMAPS[1]} \
         -framework ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework \
         -debug-symbols ${ROOT}/${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM \
         -output ${OUTPUT}/dynamic/${NAME}.xcframework
@@ -213,10 +207,6 @@ function removeSimulatorSlice {
 
 if [[ ${BUILD_DYNAMIC} == true && ${BUILDTYPE} == Release ]]; then
     removeSimulatorSlice "${NAME}"
-
-    if [[ ${INCLUDE_EVENTS_IN_PACKAGE} == true ]]; then
-        removeSimulatorSlice MapboxMobileEvents
-    fi
 fi
 
 if [[ ${BUILD_STATIC} == true ]]; then
