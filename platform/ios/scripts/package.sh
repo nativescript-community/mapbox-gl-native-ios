@@ -22,12 +22,9 @@ fi
 FORMAT=${FORMAT:-dynamic}
 BUILD_DYNAMIC=true
 BUILD_STATIC=false
-INCLUDE_EVENTS_IN_PACKAGE=false
 if [[ ${FORMAT} == "static" ]]; then
     BUILD_STATIC=true
     BUILD_DYNAMIC=false
-elif [[ ${FORMAT} == "dynamic-with-events" ]]; then
-    INCLUDE_EVENTS_IN_PACKAGE=true
 elif [[ ${FORMAT} == "stripped-dynamic" ]]; then
     echo "Packaging for stripped-dynamic"
 elif [[ ${FORMAT} != "dynamic" ]]; then
@@ -45,7 +42,7 @@ if [[ ${BUILD_FOR_DEVICE} == true ]]; then
 fi
 IOS_SDK_VERSION=`xcrun --sdk ${SDK} --show-sdk-version`
 
-step "Configuring ${FORMAT} framework for ${SDK} ${IOS_SDK_VERSION} (symbols: ${SYMBOLS}, buildtype: ${BUILDTYPE}, include events:${INCLUDE_EVENTS_IN_PACKAGE})"
+step "Configuring ${FORMAT} framework for ${SDK} ${IOS_SDK_VERSION} (symbols: ${SYMBOLS}, buildtype: ${BUILDTYPE})"
 
 xcodebuild -version
 
@@ -160,12 +157,6 @@ if [[ ${BUILD_FOR_DEVICE} == true ]]; then
 
     if [[ ${BUILD_DYNAMIC} == true ]]; then
         copyAndMakeFatFramework "${NAME}"
-
-        if [[ ${INCLUDE_EVENTS_IN_PACKAGE} == true ]]; then
-            copyAndMakeFatFramework "MapboxMobileEvents"
-        fi
-
-        # Bundling mapbox-events-ios
     fi
     
     cp -rv platform/ios/app/Settings.bundle ${OUTPUT}
@@ -226,10 +217,6 @@ function removeSimulatorSlice {
 
 if [[ ${BUILD_DYNAMIC} == true && ${BUILDTYPE} == Release ]]; then
     removeSimulatorSlice "${NAME}"
-
-    if [[ ${INCLUDE_EVENTS_IN_PACKAGE} == true ]]; then
-        removeSimulatorSlice MapboxMobileEvents
-    fi
 fi
 
 if [[ ${BUILD_STATIC} == true ]]; then

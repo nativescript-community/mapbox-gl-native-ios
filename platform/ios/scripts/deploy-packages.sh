@@ -119,9 +119,6 @@ if [[ "${GITHUB_RELEASE}" == true ]]; then
         --description "${RELEASE_NOTES}"
 fi
 
-# Used for binary release on Github - includes events SDK
-buildPackageStyle "iframework" "dynamic-with-events"
-
 # Used for Cocoapods/Carthage
 buildPackageStyle "iframework" "dynamic"
 buildPackageStyle "iframework SYMBOLS=NO" "stripped-dynamic"
