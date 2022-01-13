@@ -591,7 +591,6 @@
 		DA8933DB1CCD31D400E68420 /* Foundation.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA8933BA1CCD2CA100E68420 /* Foundation.strings */; };
 		DA8933DC1CCD31D400E68420 /* Foundation.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = DA8933BD1CCD2CAD00E68420 /* Foundation.stringsdict */; };
 		DA8933E01CCD31DF00E68420 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA89339F1CCC951200E68420 /* Localizable.strings */; };
-		DA8933F01CCD387900E68420 /* strip-frameworks.sh in Resources */ = {isa = PBXBuildFile; fileRef = DA8933EF1CCD387900E68420 /* strip-frameworks.sh */; };
 		DA8963371CC549A100684375 /* glyphs in Resources */ = {isa = PBXBuildFile; fileRef = DA8963331CC549A100684375 /* glyphs */; };
 		DA8963381CC549A100684375 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = DA8963341CC549A100684375 /* sprites */; };
 		DA8963391CC549A100684375 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = DA8963351CC549A100684375 /* styles */; };
@@ -1281,7 +1280,6 @@
 		DA8933BB1CCD2CA100E68420 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Foundation.strings; sourceTree = "<group>"; };
 		DA8933BE1CCD2CAD00E68420 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Foundation.stringsdict; sourceTree = "<group>"; };
 		DA8933D51CCD306400E68420 /* Mapbox.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mapbox.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA8933EF1CCD387900E68420 /* strip-frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "strip-frameworks.sh"; path = "framework/strip-frameworks.sh"; sourceTree = SOURCE_ROOT; };
 		DA8933F11CCD3FD700E68420 /* Info-static.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-static.plist"; sourceTree = "<group>"; };
 		DA8963331CC549A100684375 /* glyphs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glyphs; sourceTree = "<group>"; };
 		DA8963341CC549A100684375 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
@@ -2119,7 +2117,6 @@
 				960D0C351ECF5AAF008E151F /* Images.xcassets */,
 				DA89339F1CCC951200E68420 /* Localizable.strings */,
 				DAC49C5F1CD02BC9009E1AA3 /* Localizable.stringsdict */,
-				DA8933EF1CCD387900E68420 /* strip-frameworks.sh */,
 			);
 			name = "Kit Resources";
 			path = resources;
@@ -3017,7 +3014,6 @@
 				DA8933BC1CCD2CA100E68420 /* Foundation.strings in Resources */,
 				DA8933A31CCC95B000E68420 /* Localizable.strings in Resources */,
 				960D0C361ECF5AAF008E151F /* Images.xcassets in Resources */,
-				DA8933F01CCD387900E68420 /* strip-frameworks.sh in Resources */,
 				DAC49C5C1CD02BC9009E1AA3 /* Localizable.stringsdict in Resources */,
 				DA8933BF1CCD2CAD00E68420 /* Foundation.stringsdict in Resources */,
 			);
