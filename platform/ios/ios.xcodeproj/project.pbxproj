@@ -328,10 +328,6 @@
 		967C864C210A9D3C004DF794 /* UIDevice+MGLAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 967C8649210A9D3C004DF794 /* UIDevice+MGLAdditions.h */; };
 		967C864D210A9D3C004DF794 /* UIDevice+MGLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C864A210A9D3C004DF794 /* UIDevice+MGLAdditions.m */; };
 		967C864E210A9D3C004DF794 /* UIDevice+MGLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C864A210A9D3C004DF794 /* UIDevice+MGLAdditions.m */; };
-		9680273F22653B84006BA4A1 /* MBXSKUToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 9680273E22653B84006BA4A1 /* MBXSKUToken.h */; };
-		9680274022653B84006BA4A1 /* MBXSKUToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 9680273E22653B84006BA4A1 /* MBXSKUToken.h */; };
-		9680276422655696006BA4A1 /* libmbxaccounts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9680274122653C3E006BA4A1 /* libmbxaccounts.a */; };
-		96802766226556C5006BA4A1 /* libmbxaccounts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9680274122653C3E006BA4A1 /* libmbxaccounts.a */; };
 		9686D1BD22D9357700194EA0 /* MGLMapViewZoomTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9686D1BC22D9357700194EA0 /* MGLMapViewZoomTests.mm */; };
 		968F36B51E4D128D003A5522 /* MGLDistanceFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3557F7AE1E1D27D300CCA5E6 /* MGLDistanceFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96E027231E57C76E004B8E66 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96E027251E57C76E004B8E66 /* Localizable.strings */; };
@@ -1007,8 +1003,6 @@
 		966FCF511F3C321000F2B6DE /* MGLUserLocationHeadingArrowLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGLUserLocationHeadingArrowLayer.m; sourceTree = "<group>"; };
 		967C8649210A9D3C004DF794 /* UIDevice+MGLAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIDevice+MGLAdditions.h"; sourceTree = "<group>"; };
 		967C864A210A9D3C004DF794 /* UIDevice+MGLAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+MGLAdditions.m"; sourceTree = "<group>"; };
-		9680273E22653B84006BA4A1 /* MBXSKUToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBXSKUToken.h; path = "../vendor/mapbox-accounts-ios/MBXSKUToken.h"; sourceTree = "<group>"; };
-		9680274122653C3E006BA4A1 /* libmbxaccounts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbxaccounts.a; path = "vendor/mapbox-accounts-ios/libmbxaccounts.a"; sourceTree = SOURCE_ROOT; };
 		9686D1BC22D9357700194EA0 /* MGLMapViewZoomTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MGLMapViewZoomTests.mm; sourceTree = "<group>"; };
 		968F36B41E4D0FC6003A5522 /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		96E027241E57C76E004B8E66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1389,7 +1383,6 @@
 				358B3DBB2359EA0F007BEB26 /* libmbgl-vendor-icu.a in Frameworks */,
 				DA35D9D1240920B60013ECB0 /* libmbgl-vendor-parsedate.a in Frameworks */,
 				358B3DB92359E4A0007BEB26 /* libsqlite3.tbd in Frameworks */,
-				96802766226556C5006BA4A1 /* libmbxaccounts.a in Frameworks */,
 				CA94E601237EF4110037AEA0 /* MapboxMobileEvents.framework in Frameworks */,
 				DA27C24E1CBB3811000B0ECD /* GLKit.framework in Frameworks */,
 			);
@@ -1404,7 +1397,6 @@
 				DA35D9CF240920AC0013ECB0 /* libmbgl-vendor-csscolorparser.a in Frameworks */,
 				DA0BDD1F2407C09C00DAA576 /* libmbgl-vendor-icu.a in Frameworks */,
 				DA35D9D2240920BE0013ECB0 /* libmbgl-vendor-parsedate.a in Frameworks */,
-				9680276422655696006BA4A1 /* libmbxaccounts.a in Frameworks */,
 				550570D22296E96E00228ECF /* GLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1690,14 +1682,6 @@
 			name = Fixtures;
 			sourceTree = "<group>";
 		};
-		9680276322655623006BA4A1 /* Accounts */ = {
-			isa = PBXGroup;
-			children = (
-				9680273E22653B84006BA4A1 /* MBXSKUToken.h */,
-			);
-			name = Accounts;
-			sourceTree = "<group>";
-		};
 		9C6E285922A9849E0056B7BE /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1842,7 +1826,6 @@
 				DA35D9CC240920910013ECB0 /* libmbgl-vendor-csscolorparser.a */,
 				358B3DBA2359EA0F007BEB26 /* libmbgl-vendor-icu.a */,
 				DA35D9D0240920B60013ECB0 /* libmbgl-vendor-parsedate.a */,
-				9680274122653C3E006BA4A1 /* libmbxaccounts.a */,
 				358B3DB82359E491007BEB26 /* libsqlite3.tbd */,
 				1F7839A3235E11FC00D4D606 /* libz.tbd */,
 			);
@@ -2230,7 +2213,6 @@
 		DAD165851CF4D08B001FF4B9 /* Telemetry */ = {
 			isa = PBXGroup;
 			children = (
-				9680276322655623006BA4A1 /* Accounts */,
 				40834BA11FE05CFD00C1BD0D /* Development */,
 				AC518DFD201BB55A00EBC820 /* MGLTelemetryConfig.h */,
 				AC518DFE201BB55A00EBC820 /* MGLTelemetryConfig.m */,
@@ -2355,7 +2337,6 @@
 				DA35A29E1CC9E94C00E826B2 /* MGLCoordinateFormatter.h in Headers */,
 				DAF0D8181DFE6B2800B28378 /* MGLAttributionInfo_Private.h in Headers */,
 				DAAF722B1DA903C700312FA4 /* MGLStyleValue.h in Headers */,
-				9680273F22653B84006BA4A1 /* MBXSKUToken.h in Headers */,
 				DA8847F71CBAFA5100AB86E3 /* MGLOverlay.h in Headers */,
 				DA35A2B11CCA141D00E826B2 /* MGLCompassDirectionFormatter.h in Headers */,
 				DA88488B1CBB037E00AB86E3 /* SMCalloutView.h in Headers */,
@@ -2462,7 +2443,6 @@
 				96E516E92000560B00A02306 /* MGLAnnotationImage_Private.h in Headers */,
 				96E516E52000560B00A02306 /* MGLOfflinePack_Private.h in Headers */,
 				DD9BE4F91EB263D20079A3AF /* UIViewController+MGLAdditions.h in Headers */,
-				9680274022653B84006BA4A1 /* MBXSKUToken.h in Headers */,
 				DAF2571C201901E200367EF5 /* MGLHillshadeStyleLayer.h in Headers */,
 				74CB5EC4219B282500102936 /* MGLCircleStyleLayer_Private.h in Headers */,
 				DABFB8621CBE99E500D62B32 /* MGLOfflinePack.h in Headers */,

@@ -59,7 +59,7 @@ fi
 
 step "Recording library version…"
 VERSION="${OUTPUT}"/version.txt
-echo -n "https://github.com/mapbox/mapbox-gl-native-ios/commit/" > ${VERSION}
+echo -n "https://github.com/DroidsOnRoids/mapbox-gl-native-ios/commit/" > ${VERSION}
 HASH=`git log | head -1 | awk '{ print $2 }' | cut -c 1-10` && true
 echo -n "mapbox-gl-native-ios "
 echo ${HASH}
@@ -122,25 +122,25 @@ function copyAndMakeFatFramework {
         ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework \
         ${OUTPUT}/dynamic/
 
-    if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM ]]; then
-        step "Copying ${NAME} dSYM"
-        cp -r ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM \
-              ${OUTPUT}/dynamic/
-        if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM ]]; then
-            step "Merging device and simulator dSYMs…"
-            lipo \
-                ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
-                ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
-                -create -output ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
-            lipo -info ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
-        fi
-    fi
+    # if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM ]]; then
+    #     step "Copying ${NAME} dSYM"
+    #     cp -r ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM \
+    #           ${OUTPUT}/dynamic/
+    #     if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM ]]; then
+    #         step "Merging device and simulator dSYMs…"
+    #         lipo \
+    #             ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
+    #             ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
+    #             -create -output ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
+    #         lipo -info ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
+    #     fi
+    # fi
 
-    step "Merging ${NAME} simulator dynamic library into device dynamic library…"
-    lipo \
-        ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework/${NAME} \
-        ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework/${NAME} \
-        -create -output ${OUTPUT}/dynamic/${NAME}.framework/${NAME} | echo
+    # step "Merging ${NAME} simulator dynamic library into device dynamic library…"
+    # lipo \
+    #     ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework/${NAME} \
+    #     ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework/${NAME} \
+    #     -create -output ${OUTPUT}/dynamic/${NAME}.framework/${NAME} | echo
 }
 
 
