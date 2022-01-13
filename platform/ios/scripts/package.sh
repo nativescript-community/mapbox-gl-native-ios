@@ -111,33 +111,20 @@ fi
 LIBS=(Mapbox.a)
 
 
-function copyAndMakeFatFramework {
+function copyAndMakeXCFramework {
     local NAME=$1
+    local ROOT=`pwd`
 
-    step "Copying ${NAME} dynamic framework into place for iOS devices"
-    cp -r \
-        ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework \
-        ${OUTPUT}/dynamic/
-
-    # if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM ]]; then
-    #     step "Copying ${NAME} dSYM"
-    #     cp -r ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM \
-    #           ${OUTPUT}/dynamic/
-    #     if [[ -e ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM ]]; then
-    #         step "Merging device and simulator dSYMs…"
-    #         lipo \
-    #             ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
-    #             ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME} \
-    #             -create -output ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
-    #         lipo -info ${OUTPUT}/dynamic/${NAME}.framework.dSYM/Contents/Resources/DWARF/${NAME}
-    #     fi
-    # fi
-
-    # step "Merging ${NAME} simulator dynamic library into device dynamic library…"
-    # lipo \
-    #     ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework/${NAME} \
-    #     ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework/${NAME} \
-    #     -create -output ${OUTPUT}/dynamic/${NAME}.framework/${NAME} | echo
+    step "Merging ${NAME} device and simulator frameworks into XCFramework…"
+    local BCSYMBOLMAPS=(${PRODUCTS}/${BUILDTYPE}-iphoneos/*.bcsymbolmap)
+    xcodebuild -create-xcframework \
+        -framework ${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework \
+        -debug-symbols ${ROOT}/${PRODUCTS}/${BUILDTYPE}-iphoneos/${NAME}.framework.dSYM \
+        -debug-symbols ${ROOT}/${BCSYMBOLMAPS[0]} \
+        -debug-symbols ${ROOT}/${BCSYMBOLMAPS[1]} \
+        -framework ${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework \
+        -debug-symbols ${ROOT}/${PRODUCTS}/${BUILDTYPE}-iphonesimulator/${NAME}.framework.dSYM \
+        -output ${OUTPUT}/dynamic/${NAME}.xcframework
 }
 
 
@@ -156,7 +143,7 @@ if [[ ${BUILD_FOR_DEVICE} == true ]]; then
     fi
 
     if [[ ${BUILD_DYNAMIC} == true ]]; then
-        copyAndMakeFatFramework "${NAME}"
+        copyAndMakeXCFramework "${NAME}"
     fi
     
     cp -rv platform/ios/app/Settings.bundle ${OUTPUT}
@@ -233,10 +220,6 @@ if [[ ${BUILD_STATIC} == true ]]; then
     plutil -replace CFBundlePackageType -string FMWK "${OUTPUT}/static/${NAME}.framework/Info.plist"
     mkdir "${OUTPUT}/static/${NAME}.framework/Modules"
     cp -pv platform/ios/framework/modulemap "${OUTPUT}/static/${NAME}.framework/Modules/module.modulemap"
-fi
-if [[ ${BUILD_DYNAMIC} == true && ${BUILD_FOR_DEVICE} == true ]]; then
-    step "Copying bitcode symbol maps…"
-    find "${PRODUCTS}/${BUILDTYPE}-iphoneos" -name '*.bcsymbolmap' -type f -exec cp -pv {} "${OUTPUT}/dynamic/" \;
 fi
 sed -n -e '/^## /,$p' platform/ios/CHANGELOG.md > "${OUTPUT}/CHANGELOG.md"
 
