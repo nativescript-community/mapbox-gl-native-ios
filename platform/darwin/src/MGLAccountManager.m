@@ -79,4 +79,15 @@ NSString * const MGLMapboxAccountTypeKey = @"MGLMapboxAccountType";
     return [MGLAccountManager sharedManager].apiBaseURL;
 }
 
+#pragma mark - SKU Tokens
+
+#if TARGET_OS_IPHONE || TARGET_OS_SIMULATOR
+
++ (NSString *)skuToken {
+    // mapbox-gl-native depends on this method
+    return nil;
+}
+
+#endif
+
 @end
