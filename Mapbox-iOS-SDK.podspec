@@ -1,6 +1,6 @@
 Pod::Spec.new do |m|
 
-  version = '6.4.1'
+  version = '6.4.2'
 
   m.name    = 'Mapbox-iOS-SDK'
   m.version = version
@@ -18,6 +18,7 @@ Pod::Spec.new do |m|
     :http => "https://api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/#{version.to_s}/mapbox-ios-sdk-dynamic.zip",
     :flatten => true
   }
+  m.source = { :http => "https://github.com/nativescript-community/mapbox-gl-native-ios/releases/download/6.4.2/mapbox-ios-sdk-6.4.2-xcframework.zip" }
 
   m.platform              = :ios
   m.ios.deployment_target = '9.0'
