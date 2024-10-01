@@ -21,10 +21,8 @@ Pod::Spec.new do |m|
 
   m.requires_arc = true
 
-  m.vendored_frameworks = 'dynamic/Mapbox.framework'
+  m.vendored_frameworks = 'Mapbox.xcframework'
   m.module_name = 'Mapbox'
-
-  m.preserve_path = '**/*.bcsymbolmap'
 
   m.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   m.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
