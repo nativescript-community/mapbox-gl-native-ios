@@ -23,4 +23,7 @@ Pod::Spec.new do |m|
 
   m.vendored_frameworks = 'Mapbox.xcframework'
   m.module_name = 'Mapbox'
+
+  m.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  m.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end
