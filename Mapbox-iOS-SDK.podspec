@@ -14,10 +14,6 @@ Pod::Spec.new do |m|
   m.social_media_url  = 'https://twitter.com/mapbox'
   m.documentation_url = 'https://docs.mapbox.com/ios/maps/api/'
 
-  m.source = {
-    :http => "https://api.mapbox.com/downloads/v2/mobile-maps/releases/ios/packages/#{version.to_s}/mapbox-ios-sdk-dynamic.zip",
-    :flatten => true
-  }
   m.source = { :http => "https://github.com/nativescript-community/mapbox-gl-native-ios/releases/download/6.4.2/mapbox-ios-sdk-6.4.2-xcframework.zip" }
 
   m.platform              = :ios
