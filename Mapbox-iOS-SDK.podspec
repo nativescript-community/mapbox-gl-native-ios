@@ -10,7 +10,7 @@ Pod::Spec.new do |m|
   m.homepage          = 'https://docs.mapbox.com/ios/maps/'
   m.license           = { :type => 'BSD', :file => 'LICENSE.md' }
   m.author            = { 'Mapbox' => 'mobile@mapbox.com' }
-  m.screenshot        = "https://docs.mapbox.com/ios/maps/api/#{version}/img/screenshot.png"
+  m.screenshot        = "https://docs.mapbox.com/ios/maps/api/5.9.0/img/screenshot.png"
   m.social_media_url  = 'https://twitter.com/mapbox'
   m.documentation_url = 'https://docs.mapbox.com/ios/maps/api/'
 
@@ -23,7 +23,4 @@ Pod::Spec.new do |m|
 
   m.vendored_frameworks = 'Mapbox.xcframework'
   m.module_name = 'Mapbox'
-
-  m.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-  m.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end
