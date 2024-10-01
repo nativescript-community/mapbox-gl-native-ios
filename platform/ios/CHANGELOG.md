@@ -2,6 +2,12 @@
 
 Mapbox welcomes participation and contributions from everyone. Please read [CONTRIBUTING.md](../../CONTRIBUTING.md) to get started.
 
+## 6.4.2 - October 1, 2024
+
+* Removed all telemetry
+* Building xcframework
+* Remove bitcode
+
 ## 6.4.1 - November 1, 2021
 
 * Fixed watchdog termination caused by pausing file sources when entering the background. ([#639](https://github.com/mapbox/mapbox-gl-native-ios/pull/639))
